@@ -18,19 +18,11 @@ app.listen(PORT, () => {
   console.log("Server Listening on PORT:", PORT);
 });
 
-app.post('/validate', (request: any, response: any) => {
+app.post('/validate', async (request: any, response: any) => {
   const ticketPublicKey = request.body.ticketPublicKey;
   const collectionPublicKey = request.body.collectionPublicKey;
 
-  let status;
-
-  try {  
-    status = {'valid': checkTicket(umi, ticketPublicKey, collectionPublicKey)};
-  }
-  catch (err) {
-    console.log(err);
-    status = {'valid': false, 'error': err};
-  }
+  const status = await checkTicket(umi, ticketPublicKey, collectionPublicKey)
 
   response.send(status);
 });
