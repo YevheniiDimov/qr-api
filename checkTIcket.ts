@@ -9,7 +9,17 @@ type ValidationResult = {
 
 // Returns true when ticket is in the collection (event), false otherwise
 export async function checkTicket(umi: Umi, ticketPublicKey: PublicKey, collectionPublicKey: PublicKey): Promise<ValidationResult> {
-    const ticketItem = await fetchDigitalAsset(umi, ticketPublicKey);
+    let ticketItem;
+
+    try {
+        ticketItem = await fetchDigitalAsset(umi, ticketPublicKey);
+    }
+    catch (err) {
+        return {
+            valid: false,
+            message: "Failed to fetch the tiket"
+        }
+    }
 
     if (!ticketItem) {
         return {
@@ -24,8 +34,18 @@ export async function checkTicket(umi: Umi, ticketPublicKey: PublicKey, collecti
         }
     }
 
-    const fetchPromise = await fetch(ticketItem.metadata.uri);
-    const ticket = await fetchPromise.json() as TicketMetadata;
+    let ticket;
+
+    try {
+        const fetchPromise = await fetch(ticketItem.metadata.uri);
+        ticket = await fetchPromise.json() as TicketMetadata;
+    }
+    catch (err) {
+        return {
+            valid: false,
+            message: "Failed to fetch the tiket";
+        }
+    }
     
     const visitsTrait = ticket.attributes.find(trait => trait.trait_type === "visits");
     const allowedVisitsTrait = ticket.attributes.find(trait => trait.trait_type === "allowed_visits");
@@ -52,8 +72,17 @@ export async function checkTicket(umi: Umi, ticketPublicKey: PublicKey, collecti
         }
     }
 
+    let collectionItem;
 
-    const collectionItem = await fetchDigitalAsset(umi, collectionPublicKey);
+    try {
+        collectionItem = await fetchDigitalAsset(umi, collectionPublicKey);
+    }
+    catch (err) {
+        return {
+            valid: false,
+            message: "Failed to fetch the collection"
+        }
+    }
 
     if (!collectionItem) {
         return {
