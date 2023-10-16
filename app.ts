@@ -21,7 +21,16 @@ app.listen(PORT, () => {
 app.post('/validate', (request: any, response: any) => {
   const ticketPublicKey = request.body.ticketPublicKey;
   const collectionPublicKey = request.body.collectionPublicKey;
-  const status = {'valid': checkTicket(umi, ticketPublicKey, collectionPublicKey)};
+
+  let status;
+
+  try {  
+    status = {'valid': checkTicket(umi, ticketPublicKey, collectionPublicKey)};
+  }
+  catch (err) {
+    console.log(err);
+    status = {'valid': false, 'error': err};
+  }
 
   response.send(status);
 });
