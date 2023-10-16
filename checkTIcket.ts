@@ -43,7 +43,7 @@ export async function checkTicket(umi: Umi, ticketPublicKey: PublicKey, collecti
     catch (err) {
         return {
             valid: false,
-            message: "Failed to fetch the tiket";
+            message: "Failed to fetch the tiket"
         }
     }
     
