@@ -24,7 +24,11 @@ app.get('/', (request: any, response: any) => {
 
 app.post('/validate', async (request: any, response: any) => {
   try {
-    console.log(request.body);
+    if (!request.body) {
+      response.send({message: 'Response body is not defined'});
+      return;
+    }
+
     const ticketPublicKey = request.body.ticketPublicKey;
     const collectionPublicKey = request.body.collectionPublicKey;
 
