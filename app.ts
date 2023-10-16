@@ -33,8 +33,8 @@ app.post('/validate', async (request: any, response: any) => {
     
     response.send(status);
   }
-  catch (error) {
-    console.error(error);
-    response.status(500).send(error);
+  catch (err) {
+    console.error(err);
+    response.send({error: err, message: 'An error occured'});
   }
 });
