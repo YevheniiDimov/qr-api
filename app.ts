@@ -24,7 +24,7 @@ app.get('/', (request: any, response: any) => {
 
 app.post('/validate', async (request: any, response: any) => {
   try {
-    if (!request.body) {
+    if (!request.body || !request.body.ticketPublicKey || !request.body.collectionPublicKey) {
       response.send({message: 'Response body is not defined'});
       return;
     }
