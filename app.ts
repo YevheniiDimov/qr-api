@@ -18,6 +18,10 @@ app.listen(PORT, () => {
   console.log("Server Listening on PORT:", PORT);
 });
 
+app.get('/', (request: any, response: any) => {
+  response.send({message: "Welcome to QR-code NFTickets API!"});
+});
+
 app.post('/validate', async (request: any, response: any) => {
   const ticketPublicKey = request.body.ticketPublicKey;
   const collectionPublicKey = request.body.collectionPublicKey;
