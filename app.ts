@@ -24,11 +24,13 @@ app.get('/', (request: any, response: any) => {
 
 app.post('/validate', async (request: any, response: any) => {
   try {
-      const ticketPublicKey = request.body.ticketPublicKey;
+    console.log(request.body);
+    const ticketPublicKey = request.body.ticketPublicKey;
     const collectionPublicKey = request.body.collectionPublicKey;
 
     const status = await checkTicket(umi, ticketPublicKey, collectionPublicKey)
-
+    console.log(status);
+    
     response.send(status);
   }
   catch (error) {
